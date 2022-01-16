@@ -8,12 +8,17 @@ public class SlidingSlab : MonoBehaviour
     public static SlidingSlab PreviousSlab { get; private set; }
 
     [SerializeField] 
+    private float startingSlab = 0; // is not starting slab
+
+    [SerializeField] 
     private float moveSpeed = 1f;
 
-    // Start is called before the first frame update
-    void Start()
+    internal bool IsStarterSlab()
     {
-        
+        bool isStarterSlab = startingSlab == 0 ? false : true;
+        Debug.Log(isStarterSlab);
+        return isStarterSlab;
+        // return false;
     }
 
     internal void Stop()
@@ -35,6 +40,8 @@ public class SlidingSlab : MonoBehaviour
         }
         CurrentSlab = this;
         GetComponent<Renderer>().material.color = GetRandomColor();
+
+        transform.localScale = new Vector3(PreviousSlab.transform.localScale.x, transform.localScale.x, PreviousSlab.transform.localScale.x);
     }
 
     private Color GetRandomColor()
@@ -68,6 +75,8 @@ public class SlidingSlab : MonoBehaviour
         slab.transform.position = new Vector3(fallingSlabPosition, transform.position.y, transform.position.z);
 
         slab.AddComponent<Rigidbody>();
+        slab.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+
         Destroy(slab.gameObject, 1f);
     }
     // Update is called once per frame

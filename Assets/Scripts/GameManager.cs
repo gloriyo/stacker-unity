@@ -16,7 +16,12 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1")) 
         {
-            SlidingSlab.CurrentSlab.Stop();
+            if (SlidingSlab.CurrentSlab != null)
+            {
+                SlidingSlab.CurrentSlab.Stop();
+                FindObjectOfType<SlabSpawner>().SpawnSlab();
+            }
+
         }
     }
 }
